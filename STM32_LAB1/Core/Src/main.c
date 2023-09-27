@@ -59,6 +59,49 @@ void clearAllClock(){
 	                            |led4_Pin|led5_Pin|led6_Pin|led7_Pin
 	                            |led8_Pin|led9_Pin|led10_Pin|led11_Pin, SET);
 }
+
+void setNumberOnClock(int num){
+	switch (num) {
+		case 0:
+			HAL_GPIO_WritePin(led0_GPIO_Port, led0_Pin, RESET);
+			break;
+		case 1:
+			HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, RESET);
+			break;
+		case 2:
+			HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, RESET);
+			break;
+		case 3:
+			HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, RESET);
+			break;
+		case 4:
+			HAL_GPIO_WritePin(led4_GPIO_Port, led4_Pin, RESET);
+			break;
+		case 5:
+			HAL_GPIO_WritePin(led5_GPIO_Port, led5_Pin, RESET);
+			break;
+		case 6:
+			HAL_GPIO_WritePin(led6_GPIO_Port, led6_Pin, RESET);
+			break;
+		case 7:
+			HAL_GPIO_WritePin(led7_GPIO_Port, led7_Pin, RESET);
+			break;
+		case 8:
+			HAL_GPIO_WritePin(led8_GPIO_Port, led8_Pin, RESET);
+			break;
+		case 9:
+			HAL_GPIO_WritePin(led9_GPIO_Port, led9_Pin, RESET);
+			break;
+		case 10:
+			HAL_GPIO_WritePin(led10_GPIO_Port, led10_Pin, RESET);
+			break;
+		case 11:
+			HAL_GPIO_WritePin(led11_GPIO_Port, led11_Pin, RESET);
+			break;
+		default:
+			break;
+	}
+}
 /* USER CODE END 0 */
 
 /**
@@ -96,7 +139,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   clearAllClock();
-  int status = 0;
+//  int status = 0;
   while (1)
   {
     /* USER CODE END WHILE */
@@ -152,7 +195,7 @@ int main(void)
 	  default:
 		  break;
 	  }
-    /* USER CODE BEGIN 3 */
+     /* USER CODE BEGIN 3 */
 	  status = (status + 1) % 12;
 	  HAL_Delay(1000);
   }
