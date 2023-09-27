@@ -54,7 +54,11 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void clearAllClock(){
+	HAL_GPIO_WritePin(GPIOA, led0_Pin|led1_Pin|led2_Pin|led3_Pin
+	                            |led4_Pin|led5_Pin|led6_Pin|led7_Pin
+	                            |led8_Pin|led9_Pin|led10_Pin|led11_Pin, SET);
+}
 /* USER CODE END 0 */
 
 /**
@@ -91,9 +95,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  HAL_GPIO_WritePin(GPIOA, led0_Pin|led1_Pin|led2_Pin|led3_Pin
-                            |led4_Pin|led5_Pin|led6_Pin|led7_Pin
-                            |led8_Pin|led9_Pin|led10_Pin|led11_Pin, SET);
+  clearAllClock();
   int status = 0;
   while (1)
   {
