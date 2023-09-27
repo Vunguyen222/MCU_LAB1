@@ -182,68 +182,76 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   clearAllClock();
-//  int status = 0;
+  int second, minute, hour;
+  second = minute = hour = 0;
+  int num_led = 12;
+  int second_distance = 60 / num_led;
+  int minute_distance = 60 / num_led;
+  int hour_distance = 24 / num_led;
+  int cur_led_sec, cur_led_min, cur_led_hour;
+  int pre_led_sec, pre_led_min, pre_led_hour;
+  int minute_change = 0;
+  int hour_change = 0;
   while (1)
   {
-    /* USER CODE END WHILE */
-	  switch(status){
-	  case 0:
-		  HAL_GPIO_WritePin(led0_GPIO_Port, led0_Pin, RESET);
-		  HAL_GPIO_WritePin(led11_GPIO_Port, led11_Pin, SET);
-		  break;
-	  case 1:
-		  HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, RESET);
-		  HAL_GPIO_WritePin(led0_GPIO_Port, led0_Pin, SET);
-		  break;
-	  case 2:
-		  HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, RESET);
-		  HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin, SET);
-		  break;
-	  case 3:
-		  HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, RESET);
-		  HAL_GPIO_WritePin(led2_GPIO_Port, led2_Pin, SET);
-		  break;
-	  case 4:
-		  HAL_GPIO_WritePin(led4_GPIO_Port, led4_Pin, RESET);
-		  HAL_GPIO_WritePin(led3_GPIO_Port, led3_Pin, SET);
-		  break;
-	  case 5:
-		  HAL_GPIO_WritePin(led5_GPIO_Port, led5_Pin, RESET);
-		  HAL_GPIO_WritePin(led4_GPIO_Port, led4_Pin, SET);
-		  break;
-	  case 6:
-		  HAL_GPIO_WritePin(led6_GPIO_Port, led6_Pin, RESET);
-		  HAL_GPIO_WritePin(led5_GPIO_Port, led5_Pin, SET);
-		  break;
-	  case 7:
-		  HAL_GPIO_WritePin(led7_GPIO_Port, led7_Pin, RESET);
-		  HAL_GPIO_WritePin(led6_GPIO_Port, led6_Pin, SET);
-		  break;
-	  case 8:
-		  HAL_GPIO_WritePin(led8_GPIO_Port, led8_Pin, RESET);
-		  HAL_GPIO_WritePin(led7_GPIO_Port, led7_Pin, SET);
-		  break;
-	  case 9:
-		  HAL_GPIO_WritePin(led9_GPIO_Port, led9_Pin, RESET);
-		  HAL_GPIO_WritePin(led8_GPIO_Port, led8_Pin, SET);
-		  break;
-	  case 10:
-		  HAL_GPIO_WritePin(led10_GPIO_Port, led10_Pin, RESET);
-		  HAL_GPIO_WritePin(led9_GPIO_Port, led9_Pin, SET);
-		  break;
-	  case 11:
-		  HAL_GPIO_WritePin(led11_GPIO_Port, led11_Pin, RESET);
-		  HAL_GPIO_WritePin(led10_GPIO_Port, led10_Pin, SET);
-		  break;
-	  default:
-		  break;
-	  }
-     /* USER CODE BEGIN 3 */
-	  status = (status + 1) % 12;
-	  HAL_Delay(1000);
+  	  /*second_distance is the domain of time x that every x second
+  	  the next led will be on and the current led will be off*/
+  	  if(second == 60){
+  		  second = 0;
+  		  minute++;
+  		  minute_change = 1;
+  	  }
+
+  	  if(minute == 60){
+  		  minute = 0;
+  		  hour++;
+  		  hour_change = 1;
+  	  }
+
+  	  if(hour == 24){
+  		  hour = 0;
+  	  }
+
+  	  // identify current led of second
+  	  cur_led_sec = second / second_distance;
+  	  // turn of previous led of second
+  	  pre_led_sec = (num_led + (cur_led_sec - 1)) % num_led;
+  	  clearNumberOnClock(pre_led_sec);
+
+  	  if(minute_change){
+  		  // identify current led of minute
+  		  cur_led_min = minute / minute_distance;
+  		  // turn off previous led of minute
+  		  pre_led_min = (num_led + (cur_led_min - 1)) % num_led;
+  		  clearNumberOnClock(pre_led_min);
+  		  minute_change = 0;
+  	  }
+
+  	  if(hour_change){
+  		  // identify current led of hour
+  		  cur_led_hour = hour / hour_distance;
+  		  // turn off previous led of hour
+  		  pre_led_hour = (num_led + (cur_led_hour - 1)) % num_led;
+  		  clearNumberOnClock(pre_led_hour);
+  		  hour_change = 0;
+  	  }
+
+  	  // turn on current led of second
+  	  setNumberOnClock(cur_led_sec);
+
+  	  // turn on current led of minute
+  	  setNumberOnClock(cur_led_min);
+
+  	  // turn on current led of hour
+  	  setNumberOnClock(cur_led_hour);
+
+  	  second++;
+
+  	  HAL_Delay(1000);
   }
-  /* USER CODE END 3 */
+    /* USER CODE END 3 */
 }
+
 
 /**
   * @brief System Clock Configuration
